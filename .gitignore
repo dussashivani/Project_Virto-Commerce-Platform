@@ -1,0 +1,12 @@
+.env
+.env.lock
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl.bak
+*.tfvars
+!*.tfvars.example
+backups/
+*.pem
+*.key
+evidence/raw/
