@@ -38,4 +38,4 @@ Offline static checks (no Docker daemon): `./scripts/test-all.sh`.
 ## Before you submit
 1. Run everything above, pin real image tags/digests, fill `evidence/` and the "one issue" slide with your real incident.
 2. Update `docs/STATUS.md` with what passed/failed.
-3. Be able to explain every file (the brief requ
+3. Be able to explain every file (the brief requires it).
