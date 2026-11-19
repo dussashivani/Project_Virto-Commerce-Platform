@@ -1,0 +1,23 @@
+# Environment secrets
+.env
+.env.*
+!.env.example
+.env.lock
+
+# Terraform generated files and state
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+
+# Private keys and certificates
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Backups and local data
+*.bak
+*.backup
+backups/
