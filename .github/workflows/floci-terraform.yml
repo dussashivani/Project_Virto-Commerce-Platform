@@ -52,6 +52,7 @@ jobs:
 
           cat > .env <<'ENV'
           MSSQL_SA_PASSWORD=CI_Test_Password_123!
+          REDIS_PASSWORD=CI_Redis_Test_Password_123!
           SQLSERVER_IMAGE=mcr.microsoft.com/mssql/server:2022-latest
           PLATFORM_IMAGE=virtocommerce/platform:latest
           STOREFRONT_IMAGE=virtocommerce/storefront:latest
