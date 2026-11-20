@@ -98,16 +98,6 @@ services:
       Search__ElasticSearch8__Server: http://elasticsearch:9200
       Search__ElasticSearch8__EnableCompatibilityMode: "true"
 
-      # Product asset storage
-      Assets__Provider: FileSystem
-      Assets__FileSystem__RootPath: /opt/virtocommerce/platform/assets
-      Assets__FileSystem__PublicUrl: http://localhost:8090/assets/
-
-      # CMS content storage
-      Content__Provider: FileSystem
-      Content__FileSystem__RootPath: /opt/virtocommerce/platform/wwwroot/cms-content
-      Content__FileSystem__PublicUrl: http://localhost:8090/cms-content/
-
       # Local email testing using Mailpit
       Notifications__Gateway: Smtp
       Notifications__DefaultSender: noreply@virto.local
@@ -119,7 +109,6 @@ services:
 
     volumes:
       - platform_appdata:/opt/virtocommerce/platform/App_Data
-      - platform_assets:/opt/virtocommerce/platform/assets
       - cms_content:/opt/virtocommerce/platform/wwwroot/cms-content
       - ./modules:/opt/virtocommerce/platform/modules:ro
     ports:
@@ -174,7 +163,6 @@ volumes:
   es_data:
   redis_data:
   platform_appdata:
-  platform_assets:
   cms_content:
 
 networks:
