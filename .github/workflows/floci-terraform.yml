@@ -5,15 +5,15 @@ on:
     branches:
       - main
     paths:
-      - 'terraform/**'
-      - 'docker-compose.floci.yml'
+      - 'virto-aws-devops/terraform/**'
+      - 'virto-aws-devops/docker-compose.floci.yml'
       - '.github/workflows/floci-terraform.yml'
   pull_request:
     branches:
       - main
     paths:
-      - 'terraform/**'
-      - 'docker-compose.floci.yml'
+      - 'virto-aws-devops/terraform/**'
+      - 'virto-aws-devops/docker-compose.floci.yml'
       - '.github/workflows/floci-terraform.yml'
   workflow_dispatch:
 
@@ -46,27 +46,32 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y awscli
 
+      - name: Validate Docker Compose files
+        run: |
+          docker compose -f virto-aws-devops/docker-compose.yml config -q
+          docker compose -f virto-aws-devops/docker-compose.floci.yml config -q
+
       - name: Terraform formatting check
-        run: terraform fmt -check -recursive terraform
+        run: terraform fmt -check -recursive virto-aws-devops/terraform
 
       - name: Terraform initialization
-        working-directory: terraform/envs/floci
+        working-directory: virto-aws-devops/terraform/envs/floci
         run: terraform init -input=false
 
       - name: Terraform validation
-        working-directory: terraform/envs/floci
+        working-directory: virto-aws-devops/terraform/envs/floci
         run: terraform validate
 
       - name: Start Floci emulator
         run: |
-          docker compose -f docker-compose.floci.yml up -d
+          docker compose -f virto-aws-devops/docker-compose.floci.yml up -d
           for i in $(seq 1 60); do
             if curl -fsS http://localhost:4566/ >/dev/null 2>&1; then
               echo "Floci is ready"
               break
             fi
             if [ "$i" -eq 60 ]; then
-              docker compose -f docker-compose.floci.yml logs
+              docker compose -f virto-aws-devops/docker-compose.floci.yml logs
               exit 1
             fi
             sleep 2
@@ -78,17 +83,16 @@ jobs:
           aws --endpoint-url="$AWS_ENDPOINT_URL" s3 ls
 
       - name: Terraform plan
-        working-directory: terraform/envs/floci
+        working-directory: virto-aws-devops/terraform/envs/floci
         run: terraform plan -input=false -out=tfplan
 
       - name: Terraform apply (main branch only)
         if: github.event_name != 'pull_request'
-        working-directory: terraform/envs/floci
+        working-directory: virto-aws-devops/terraform/envs/floci
         run: terraform apply -input=false -auto-approve tfplan
 
       - name: Verify deployed resources
         if: github.event_name != 'pull_request'
-        working-directory: terraform/envs/floci
         run: |
           aws --endpoint-url="$AWS_ENDPOINT_URL" s3 ls
           aws --endpoint-url="$AWS_ENDPOINT_URL" ecs list-clusters
@@ -99,7 +103,8 @@ jobs:
 
       - name: Capture Floci logs
         if: always()
-        run: docker compose -f docker-compose.floci.yml logs > floci-logs.txt || true
+        run: |
+          docker compose -f virto-aws-devops/docker-compose.floci.yml logs > floci-logs.txt || true
 
       - name: Upload execution evidence
         if: always()
@@ -111,4 +116,4 @@ jobs:
 
       - name: Stop Floci emulator
         if: always()
-        run: docker compose -f docker-compose.floci.yml down
+        run: docker compose -f virto-aws-devops/docker-compose.floci.yml down
