@@ -48,8 +48,21 @@ jobs:
 
       - name: Validate Docker Compose files
         run: |
-          docker compose -f virto-aws-devops/docker-compose.yml config -q
-          docker compose -f virto-aws-devops/docker-compose.floci.yml config -q
+          cd virto-aws-devops
+
+          cat > .env <<'ENV'
+          MSSQL_SA_PASSWORD=CI_Test_Password_123!
+          SQLSERVER_IMAGE=mcr.microsoft.com/mssql/server:2022-latest
+          PLATFORM_IMAGE=virtocommerce/platform:latest
+          STOREFRONT_IMAGE=virtocommerce/storefront:latest
+          ELASTICSEARCH_IMAGE=docker.elastic.co/elasticsearch/elasticsearch:8.17.0
+          REDIS_IMAGE=redis:7-alpine
+          ENV
+
+          docker compose config -q
+          docker compose -f docker-compose.floci.yml config -q
+
+          rm -f .env
 
       - name: Terraform formatting check
         run: terraform fmt -check -recursive virto-aws-devops/terraform
