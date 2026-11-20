@@ -1,6 +1,7 @@
 
 # Virto Commerce - local deployment (Docker Compose)
 # Scope: LOCAL DOCKER ONLY. This is not AWS and not Floci.
+#
 # Start:   ./scripts/up.sh
 # Stop:    docker compose down (data kept)
 # Verify:  ./scripts/validate.sh
