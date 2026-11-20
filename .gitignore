@@ -21,3 +21,18 @@ crash.log
 *.bak
 *.backup
 backups/
+
+# Virto Commerce local runtime and downloaded files
+.nuke/
+app_data/
+modules/
+admin-shell.zip
+admin-shell-release.json
+
+# Frontend local repository and sensitive configuration
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+frontend/.certificates/
+frontend/.yarn/
+frontend/node_modules/

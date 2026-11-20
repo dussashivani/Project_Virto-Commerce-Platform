@@ -83,13 +83,14 @@ services:
       # ASP.NET Core maps "__" to ":" so these override appsettings.json keys.
       ConnectionStrings__VirtoCommerce: "Data Source=sqlserver;Initial Catalog=${VC_DB_NAME};User ID=sa;Password=${MSSQL_SA_PASSWORD};MultipleActiveResultSets=True;TrustServerCertificate=True;Connect Timeout=30"
       ConnectionStrings__RedisConnectionString: "redis:6379,password=${REDIS_PASSWORD}"
-      Search__Provider: ${SEARCH_PROVIDER:-ElasticSearch}
+      Search__Provider: ${SEARCH_PROVIDER:-ElasticSearch8}
       Search__Scope: ${SEARCH_SCOPE:-default}
-      Search__ElasticSearch__Server: http://elasticsearch:9200
-      Search__ElasticSearch__EnableCompatibilityMode: "true"
+      Search__ElasticSearch8__Server: http://elasticsearch:9200
+      Search__ElasticSearch8__EnableCompatibilityMode: "true"
     volumes:
       - platform_appdata:/opt/virtocommerce/platform/App_Data       # modules, uploads, license
       - cms_content:/opt/virtocommerce/platform/wwwroot/cms-content # themes/pages shared with storefront
+      - ./modules:/opt/virtocommerce/platform/modules:ro
     ports:
       - "127.0.0.1:${PLATFORM_HOST_PORT:-8090}:80"
     healthcheck:

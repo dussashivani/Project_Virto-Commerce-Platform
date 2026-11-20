@@ -1,0 +1,3 @@
+[submodule "virto-aws-devops/frontend"]
+	path = virto-aws-devops/frontend
+	url = https://github.com/VirtoCommerce/vc-frontend.git
