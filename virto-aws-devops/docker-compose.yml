@@ -88,6 +88,10 @@ services:
       ASPNETCORE_ENVIRONMENT: Production
       TZ: ${TZ:-UTC}
 
+      # Public URLs for assets and CMS content
+      Assets__FileSystem__PublicUrl: http://localhost:8090/assets/
+      Content__FileSystem__PublicUrl: http://localhost:8090/cms-content/
+
       # Database and cache
       ConnectionStrings__VirtoCommerce: "Data Source=sqlserver;Initial Catalog=${VC_DB_NAME};User ID=sa;Password=${MSSQL_SA_PASSWORD};MultipleActiveResultSets=True;TrustServerCertificate=True;Connect Timeout=30"
       ConnectionStrings__RedisConnectionString: "redis:6379,password=${REDIS_PASSWORD}"
